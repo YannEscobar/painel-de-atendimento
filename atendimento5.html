@@ -74,13 +74,21 @@
     </style>
 </head>
 
-<body>
-    <!-- Cabeçalho -->
-     <header class="bg-primary text-white text-center py-3">
-        <h1 class>Atendimento</h1>
-        <div id="relogio"></div>
-     </header> 
-     <div class="container-fluid">
+    <!-- Cabecalho com relogio -->
+    <header class="bg-dark text-white text-center py-3">
+        <h1>Gerenciamento de Atendimento Animal</h1>
+        <div id="relogio">--:--:--</div>
+        <div id="dataAtual">--/--/----</div>
+    </header>
+
+    <!-- Anuncios -->
+    <div class="container-fluid mt-2">
+        <div id="anuncios">
+            📢 <strong>Anúncio:</strong> Bem-vindos ao nosso atendimento! Por favor, aguarde sua senha ser chamada.
+        </div>
+    </div>
+
+    <div class="container-fluid">
         <div class="row">
             <!-- Painel de Entrada das Senhas -->
             <div class="col-md-4">
