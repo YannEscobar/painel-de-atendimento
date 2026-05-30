@@ -1,27 +1,40 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Atendimento</title>
+    <title>Painel de atendimento - PetShop</title>
+    <!-- Bibliotecas usadas para estilização/funcionalidades -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="Stylepainel.css">
+
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+        }
         /* Estilo para manter a proporção original dos vídeos */
         .owl-carousel .item video {
             width: 100%;
             height: auto;
         }
-
-        /* Estilo para os números grandes */
+        .owl-carousel .item video {
+        width: 100%;
+        height: auto;
+        }
+                
+                /* Estilo para os números grandes */
         .ticket-number {
             font-size: 3rem;
             font-weight: bold;
             text-align: center;
             margin: 10px 0;
         }
-
+                
         .current-ticket {
             font-size: 5rem;
             font-weight: bold;
@@ -29,18 +42,18 @@
             color: #dc3545;
             animation: pulse 1.5s infinite;
         }
-
+                
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
-
+                
         .ticket-list {
             max-height: 400px;
             overflow-y: auto;
         }
-
+                
         .ticket-card {
             border-radius: 10px;
             margin-bottom: 10px;
@@ -48,114 +61,18 @@
             text-align: center;
             background-color: #f8f9fa;
         }
-
+                
         .btn-generate {
             font-size: 1.5rem;
             padding: 15px 30px;
         }
-
+                
         .btn-attend {
             font-size: 1.5rem;
             padding: 15px 30px;
         }
-
-        /* === NOVAS COISAS QUE ADICIONAMOS === */
-
-        /* Relogio e data */
-        #relogio {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        #dataAtual {
-            font-size: 1rem;
-            color: #ddd;
-        }
-
-        /* Tempo medio de espera */
-        .tempo-espera {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        /* Notificacao que aparece quando chama proximo */
-        #notificacao {
-            display: none;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-            min-width: 300px;
-            font-size: 1.2rem;
-            animation: entrar 0.4s ease;
-        }
-
-        @keyframes entrar {
-            from { opacity: 0; transform: translateX(50px); }
-            to   { opacity: 1; transform: translateX(0); }
-        }
-
-        /* Painel de anuncios */
-        #anuncios {
-            background-color: #fff3cd;
-            border-left: 5px solid #ffc107;
-            padding: 10px 15px;
-            font-size: 1rem;
-        }
-
-        /* Prioridade badges */
-        .badge-prioridade {
-            font-size: 0.85rem;
-            padding: 4px 8px;
-            border-radius: 5px;
-        }
-
-        /* Feedback estrelas */
-        .estrela {
-            font-size: 2rem;
-            cursor: pointer;
-            color: #ccc;
-            transition: color 0.2s;
-        }
-
-        .estrela:hover,
-        .estrela.marcada {
-            color: #ffc107;
-        }
-
-        /* Monitoramento simples */
-        .stat-box {
-            background: #e9ecef;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            margin-bottom: 8px;
-        }
-
-        .stat-box span {
-            font-size: 1.8rem;
-            font-weight: bold;
-            display: block;
-        }
-
-
-        /* Categoria badge colorido */
-        .cat-grande  { background-color: #dc3545; color: white; }
-        .cat-medio   { background-color: #fd7e14; color: white; }
-        .cat-pequeno { background-color: #198754; color: white; }
-        .cat-normal  { background-color: #6c757d; color: white; }
-        .cat-prio    { background-color: #6f42c1; color: white; }
     </style>
 </head>
-<body>
-
-    <!-- Notificacao flutuante -->
-    <div id="notificacao" class="alert alert-warning alert-dismissible shadow" role="alert">
-        <strong>🔔 Próxima senha:</strong> <span id="notifTexto"></span>
-        <button type="button" class="btn-close" onclick="fecharNotif()"></button>
-    </div>
 
     <!-- Cabecalho com relogio -->
     <header class="bg-dark text-white text-center py-3">
@@ -173,7 +90,6 @@
 
     <div class="container-fluid">
         <div class="row">
-
             <!-- Painel de Entrada das Senhas -->
             <div class="col-md-4">
                 <div class="card mt-3">
@@ -181,39 +97,9 @@
                         <h2>Painel de Entrada de Senhas</h2>
                     </div>
                     <div class="card-body text-center">
-
-                        <!-- Opcoes de personalizacao - novo -->
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Tipo de senha:</label>
-                            <select id="tipoSenha" class="form-select mb-2">
-                                <option value="normal">Normal (Número)</option>
-                                <option value="nome">Por Nome</option>
-                                <option value="grande">Grande Porte</option>
-                                <option value="medio">Médio Porte</option>
-                                <option value="pequeno">Pequeno Porte</option>
-                            </select>
-                            <div id="campoNome" style="display:none">
-                                <input type="text" id="inputNome" class="form-control" placeholder="Digite o nome...">
-                            </div>
-                        </div>
-
-                        <!-- Prioridade - novo -->
-                        <div class="mb-3">
-                            <div class="form-check form-switch d-flex justify-content-center align-items-center gap-2">
-                                <input class="form-check-input" type="checkbox" id="checkPrioridade">
-                                <label class="form-check-label" for="checkPrioridade">⚡ Prioridade</label>
-                            </div>
-                        </div>
-
                         <button id="generateTicket" class="btn btn-success btn-generate mb-4">
                             Gerar Nova Senha
                         </button>
-
-                        <!-- Tempo medio de espera - novo -->
-                        <div class="alert alert-info py-2">
-                            ⏱️ Tempo médio de espera: <span id="tempoEspera" class="tempo-espera">-- min</span>
-                        </div>
-
                         <div class="ticket-list">
                             <h4>Últimas senhas geradas:</h4>
                             <div id="generatedTickets" class="mt-3">
@@ -233,30 +119,9 @@
                     <div class="card-body">
                         <div class="owl-carousel" id="videoCarousel">
                             <!-- Adicione cada vídeo como um item do carrossel -->
-                            <div class="item"><video src="https://video-previews.elements.envatousercontent.com/files/4d02c6b0-fc40-4f66-a072-73c07db4fe42/video_preview_h264.mp4" autoplay loop muted></video></div>
-                            <div class="item"><video src="https://video-previews.elements.envatousercontent.com/cc2cd98b-2471-4836-a58c-0ca6cf11d551/watermarked_preview/watermarked_preview.mp4" autoplay loop muted></video></div>
-                            <div class="item"><video src="https://video-previews.elements.envatousercontent.com/files/06182ae8-1ec9-466f-a38f-062eba24ec44/video_preview_h264.mp4" autoplay loop muted></video></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Feedback de atendimento - novo -->
-                <div class="card mt-3">
-                    <div class="card-header bg-light">
-                        <h5 class="mb-0">⭐ Feedback do Atendimento</h5>
-                    </div>
-                    <div class="card-body text-center">
-                        <p class="mb-2">Como foi seu atendimento?</p>
-                        <div id="estrelas">
-                            <span class="estrela" onclick="avaliar(1)">★</span>
-                            <span class="estrela" onclick="avaliar(2)">★</span>
-                            <span class="estrela" onclick="avaliar(3)">★</span>
-                            <span class="estrela" onclick="avaliar(4)">★</span>
-                            <span class="estrela" onclick="avaliar(5)">★</span>
-                        </div>
-                        <div id="feedbackMsg" class="mt-2 text-muted" style="font-size:0.9rem"></div>
-                        <div class="mt-2">
-                            <small>Média das avaliações: <strong id="mediaAvaliacao">--</strong> ⭐ (<span id="totalAvaliacoes">0</span> avaliações)</small>
+                            <div class="item"><video src="video1.mp4" autoplay loop muted></video></div>
+                            <div class="item"><video src="video2.mp4" autoplay loop muted></video></div>
+                            <div class="item"><video src="video3.mp4" autoplay loop muted></video></div>
                         </div>
                     </div>
                 </div>
@@ -280,46 +145,10 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Monitoramento de uso - novo -->
-                <div class="card mt-3">
-                    <div class="card-header bg-dark text-white">
-                        <h5 class="mb-0">📊 Monitoramento</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="stat-box">
-                                    <span id="statGeradas">0</span>
-                                    Geradas
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="stat-box">
-                                    <span id="statAtendidas">0</span>
-                                    Atendidas
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="stat-box">
-                                    <span id="statFila">0</span>
-                                    Na fila
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="stat-box">
-                                    <span id="statPrioridade">0</span>
-                                    Prioritárias
-                                </div>
-                            </div>
-                        </div>
-                        <small class="text-muted">Início da sessão: <span id="iniciouEm">--</span></small>
-                    </div>
-                </div>
             </div>
         </div>
 
-        <!-- Painel Atual -->
+        <!-- Painel Atual (quem acabou de chegar e quem está sendo atendido) -->
         <div class="row mt-4">
             <div class="col">
                 <div class="card">
@@ -335,303 +164,159 @@
                             <div class="col-md-6">
                                 <h3>Senha em atendimento:</h3>
                                 <div id="currentTicket" class="current-ticket">---</div>
-                                <div id="currentTicketInfo" class="text-muted mt-1" style="font-size:1rem"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
+    <!-- Scripts do Bootstrap, jQuery, Popper.js e Owl Carousel -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
     <script>
         // Variáveis globais
-        let ticketCounter = 1000;
-        let generatedTickets = []; // cada item é um objeto agora
-        let attendedTickets = [];
+        let ticketCounter = 1000; // começa contando do 1000
+        let generatedTickets = []; // array (lista) de senhas OBJETOS
+        let attendedTickets = []; // lista das atendidas
         const maxDisplayedTickets = 8;
-
-        // variaveis novas para monitoramento
-        let totalGeradas = 0;
-        let totalAtendidas = 0;
-        let totalPrioridade = 0;
-        let somaTempos = 0; // para calcular tempo medio
-        let ultimaGerada = null; // hora que gerou a ultima senha
-        let avaliacoes = [];
-
-        // Inicializa o carrossel
+        
+        // Inicializa o carrossel com uma biblioteca que divs em um carrossel
         $('#videoCarousel').owlCarousel({
             items: 1,
             loop: true,
             autoplay: true,
-            autoplayTimeout: 5000,
+            autoplayTimeout: 5000, // Tempo de exibição de cada vídeo (em milissegundos)
             autoplayHoverPause: false,
-            nav: false,
-            dots: false,
+            nav: false, // Esconde as setas de navegação
+            dots: false, // Esconde os pontos indicadores
         });
-
-        // === RELOGIO - funcao nova ===
+        
+        //-------RELÓGIO---------
         function atualizarRelogio() {
             var agora = new Date();
 
-            var horas   = String(agora.getHours()).padStart(2, '0');
+            var horas = String(agora.getHours()).padStart(2, '0');
+            /* agora.getHours() autoexplicativo pega o número da hora do PC do usuário
+                'String' antes do método transforma o valor da hora em string
+                .padStart(2, '0') se tiver MENOS de 2 caracteres coloca um '0'
+                o mesmo vale para os posteriores mudando apenas os minutos e segundos*/
             var minutos = String(agora.getMinutes()).padStart(2, '0');
-            var segundos = String(agora.getSeconds()).padStart(2, '0');
+            var segundos = String(agora.getSeconds()).padStart(2,'0');
+
             $('#relogio').text(horas + ':' + minutos + ':' + segundos);
-
-            var dia = String(agora.getDate()).padStart(2, '0');
-            var mes = String(agora.getMonth() + 1).padStart(2, '0');
-            var ano = agora.getFullYear();
-            var diasSemana = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
-            $('#dataAtual').text(diasSemana[agora.getDay()] + ', ' + dia + '/' + mes + '/' + ano);
+            /*'$('#relogio')' vem do jQuery que procura por uma id chamada "relogio"
+                Troca o conteúdo presente na div por essa concatenação*/
         }
-        setInterval(atualizarRelogio, 1000);
-        atualizarRelogio(); // chama ja de cara
+            setInterval(atualizarRelogio, 1000);
+            /* no 'setInterval(atualizarRelogio, 1000);' chama essa função a cada
+                1000 milissegundo, ou seja, 1 segundo
+                Sem isso o relógio não atualizaria
+                "metrônomo"*/
+            atualizarRelogio(); //executa agora sem esperar "toque inicial"
 
-        // Registra hora de inicio
-        var agora2 = new Date();
-        $('#iniciouEm').text(String(agora2.getHours()).padStart(2,'0') + ':' + String(agora2.getMinutes()).padStart(2,'0'));
 
-        // === mostrar/esconder campo nome ===
-        $('#tipoSenha').change(function() {
-            if ($(this).val() === 'nome') {
-                $('#campoNome').show();
-            } else {
-                $('#campoNome').hide();
-            }
-        });
+        //------Gerar nova senha-----
+        $('#generateTicket').click(function()
+        /*No '$('#generateTicket').click(function(){...})'
+            Busca com o Jquery o id "generateTicket"
+            .click(function){} quando for clicado faça oque estiver dentro das chaves*/
+        {
+            const newTicket = ticketCounter++; //pega o ticketCounter e adiciona '+ 1' após o valor atual
+            generatedTickets.unshift(newTicket);
+                /* 'unshift' Adiciona no início do array(lista)
+                começa assim:
+                generatedTickets = []
+                
+                primeiro click
+                generatedTickets.unshift(1000) → [1000]
+                
+                segundo click
+                generatedTickets.unshift(1001) → [1001, 1000]
 
-        // === Gerar nova senha ===
-        $('#generateTicket').click(function() {
-            var tipo = $('#tipoSenha').val();
-            var prioridade = $('#checkPrioridade').is(':checked');
-            var nome = $('#inputNome').val().trim();
-
-            // monta o objeto da senha
-            var novaObj = {
-                numero: ticketCounter++,
-                tipo: tipo,
-                nome: (tipo === 'nome' && nome !== '') ? nome : null,
-                prioridade: prioridade,
-                hora: new Date()
-            };
-
-            // senhas prioritarias vao na frente
-            if (prioridade) {
-                generatedTickets.unshift(novaObj);
-                totalPrioridade++;
-            } else {
-                generatedTickets.unshift(novaObj);
-            }
-
-            totalGeradas++;
-            ultimaGerada = new Date();
-
-            // limpa o nome depois de gerar
-            $('#inputNome').val('');
-
-            // Atualiza ultimo gerado no painel
-            $('#lastGenerated').text(formatarSenha(novaObj));
-
-            // atualiza monitoramento
-            atualizarMonitoramento();
+                terceiro click 
+                generatedTickets.unshift(1002) → [1002, 1001, 1000]
+                ...
+                */
+            // Atualiza a última senha gerada no painel atual
+            $('#lastGenerated').text(newTicket);
+            
+            // Atualiza a lista de senhas geradas
             updateGeneratedTicketsDisplay();
-            calcularTempoEspera();
         });
-
-        // === Atender próxima senha ===
+        
+        // Atender próxima senha
         $('#attendTicket').click(function() {
-            if (generatedTickets.length > 0) {
-                // pega a mais antiga (ultima do array, pois unshift coloca no inicio)
-                // mas prioridade vai na frente entao ordenamos
-                ordenarFilaPorPrioridade();
-
-                var proximaObj = generatedTickets.shift(); // shift pega o primeiro (prioritarios ficam na frente)
-                attendedTickets.unshift(proximaObj);
-                totalAtendidas++;
-
-                // calcula tempo que ficou na fila
-                var agora3 = new Date();
-                var diff = (agora3 - proximaObj.hora) / 1000 / 60; // em minutos
-                somaTempos += diff;
-
-                // Atualiza painel atual
-                $('#currentTicket').text(formatarSenha(proximaObj));
-                $('#currentTicketInfo').text(badgeTexto(proximaObj));
-
-                // dispara notificacao
-                dispararNotificacao(proximaObj);
-
-                // Atualiza listas
+            //Antes da execução o aplicativo verifica se há alguma senha na fila
+            if (generatedTickets.length > 0)
+            /*'.lenght' retorna o tamanho da fila
+                0 -> vazia
+                1 -> [1000] tem uma senha
+                3 -> [1002, 1001, 1000] três senhas
+                ou seja se tiver uma senha ele faz:*/
+            {
+                //obs esse "nextTicket só existe nesse escopo"
+                const nextTicket = generatedTickets.pop(); // Remove a última senha gerada
+                /*No exemplo anterior [1002, 1001, 1001]
+                    generatedTickets.pop()
+                    [1002,1001] após o pop*/
+                attendedTickets.unshift(nextTicket); // 'unshift' Adiciona no início do array de atendidos
+                
+                // Atualiza a senha em atendimento no painel atual
+                $('#currentTicket').text(nextTicket);
+                
+                // Atualiza as listas de senhas
                 updateGeneratedTicketsDisplay();
                 updateAttendedTicketsDisplay();
-                atualizarMonitoramento();
-                calcularTempoEspera();
-
-                if (generatedTickets.length === 0) {
+                
+                // Se não houver mais senhas, atualiza o painel
+                if (generatedTickets.length === 0)
+                /*O '===' é uma comparação estrita checa valor e tipo ao mesmo tempo, as duas tem que ser iguais*/                
+                {
                     $('#lastGenerated').text('---');
                 }
             } else {
                 alert('Não há senhas para atender!');
             }
         });
-
-        // === ordena: prioridade primeiro, depois por ordem de chegada ===
-        function ordenarFilaPorPrioridade() {
-            // separa prioritarias e normais
-            var prio   = generatedTickets.filter(function(t){ return t.prioridade; });
-            var normal = generatedTickets.filter(function(t){ return !t.prioridade; });
-            generatedTickets = prio.concat(normal);
-        }
-
-        // === Formata o texto da senha para exibir ===
-        function formatarSenha(obj) {
-            if (obj.nome) return obj.nome;
-            if (obj.tipo === 'grande')  return 'G-' + obj.numero;
-            if (obj.tipo === 'medio')   return 'M-' + obj.numero;
-            if (obj.tipo === 'pequeno') return 'P-' + obj.numero;
-            return String(obj.numero);
-        }
-
-        // texto de categoria para exibir embaixo
-        function badgeTexto(obj) {
-            if (obj.prioridade) return '⚡ Prioritário';
-            if (obj.tipo === 'grande')  return '🏢 Grande Porte';
-            if (obj.tipo === 'medio')   return '🏬 Médio Porte';
-            if (obj.tipo === 'pequeno') return '🏪 Pequeno Porte';
-            if (obj.nome)               return '👤 ' + obj.nome;
-            return '';
-        }
-
-        // classe de cor do badge
-        function classeBadge(obj) {
-            if (obj.prioridade) return 'cat-prio';
-            if (obj.tipo === 'grande')  return 'cat-grande';
-            if (obj.tipo === 'medio')   return 'cat-medio';
-            if (obj.tipo === 'pequeno') return 'cat-pequeno';
-            return 'cat-normal';
-        }
-
-        // === Calcula tempo medio de espera ===
-        function calcularTempoEspera() {
-            if (generatedTickets.length === 0) {
-                $('#tempoEspera').text('-- min');
-                return;
-            }
-            // tempo medio baseado nas atendidas
-            if (totalAtendidas === 0) {
-                $('#tempoEspera').text('~5 min'); // estimativa inicial
-                return;
-            }
-            var media = somaTempos / totalAtendidas;
-            // multiplica pela posicao na fila
-            var estimativa = Math.round(media * generatedTickets.length);
-            if (estimativa < 1) estimativa = 1;
-            $('#tempoEspera').text('~' + estimativa + ' min');
-        }
-
-        // === Notificacao ===
-        function dispararNotificacao(obj) {
-            $('#notifTexto').text(formatarSenha(obj) + ' — ' + badgeTexto(obj));
-            $('#notificacao').fadeIn(300);
-            // some automaticamente depois de 5 segundos
-            setTimeout(function() {
-                $('#notificacao').fadeOut(400);
-            }, 5000);
-        }
-
-        function fecharNotif() {
-            $('#notificacao').fadeOut(300);
-        }
-
-        // === Anuncios ===
-
-        // === Feedback / avaliacao ===
-        function avaliar(nota) {
-            avaliacoes.push(nota);
-
-            // colore as estrelas
-            $('.estrela').each(function(i) {
-                if (i < nota) {
-                    $(this).addClass('marcada');
-                } else {
-                    $(this).removeClass('marcada');
-                }
-            });
-
-            var msgs = ['😞 Que pena! Vamos melhorar.', '😐 Obrigado pelo feedback.', '🙂 Agradecemos a avaliação!', '😊 Ótimo! Obrigado.', '🥳 Excelente! Fico feliz!'];
-            $('#feedbackMsg').text(msgs[nota - 1]);
-
-            // calcula media
-            var soma = 0;
-            for (var i = 0; i < avaliacoes.length; i++) {
-                soma += avaliacoes[i];
-            }
-            var media = (soma / avaliacoes.length).toFixed(1);
-            $('#mediaAvaliacao').text(media);
-            $('#totalAvaliacoes').text(avaliacoes.length);
-
-            // reseta estrelas depois de um tempo
-            setTimeout(function() {
-                $('.estrela').removeClass('marcada');
-                $('#feedbackMsg').text('');
-            }, 3000);
-        }
-
-        // === Monitoramento ===
-        function atualizarMonitoramento() {
-            $('#statGeradas').text(totalGeradas);
-            $('#statAtendidas').text(totalAtendidas);
-            $('#statFila').text(generatedTickets.length);
-            $('#statPrioridade').text(totalPrioridade);
-        }
-
-        // === Atualiza a exibição das senhas geradas ===
+        
+        // Atualiza a exibição das senhas geradas
         function updateGeneratedTicketsDisplay() {
-            var displayElement = $('#generatedTickets');
+            const displayElement = $('#generatedTickets');
             displayElement.empty();
-
-            // ordena pra mostrar prioritarias primeiro
-            var ordenadas = generatedTickets.slice(0, maxDisplayedTickets);
-            ordenadas.sort(function(a, b) {
-                if (a.prioridade && !b.prioridade) return -1;
-                if (!a.prioridade && b.prioridade) return 1;
-                return 0;
+            
+            // Mostra apenas as últimas 8 senhas
+            const ticketsToShow = generatedTickets.slice(0, maxDisplayedTickets);
+            
+            ticketsToShow.forEach(ticket => {
+                displayElement.append(`
+                    <div class="ticket-card">
+                        <div class="ticket-number">${ticket}</div>
+                    </div>
+                `);
             });
-
-            for (var i = 0; i < ordenadas.length; i++) {
-                var t = ordenadas[i];
-                displayElement.append(
-                    '<div class="ticket-card">' +
-                    '<div class="ticket-number">' + formatarSenha(t) + '</div>' +
-                    '<span class="badge badge-prioridade ' + classeBadge(t) + '">' + badgeTexto(t) + '</span>' +
-                    '</div>'
-                );
-            }
         }
-
-        // === Atualiza a exibição das senhas atendidas ===
+        
+        // Atualiza a exibição das senhas atendidas
         function updateAttendedTicketsDisplay() {
-            var displayElement = $('#attendedTickets');
+            const displayElement = $('#attendedTickets');
             displayElement.empty();
-
-            var ticketsToShow = attendedTickets.slice(0, maxDisplayedTickets);
-
-            for (var j = 0; j < ticketsToShow.length; j++) {
-                var t2 = ticketsToShow[j];
-                displayElement.append(
-                    '<div class="ticket-card">' +
-                    '<div class="ticket-number">' + formatarSenha(t2) + '</div>' +
-                    '<span class="badge badge-prioridade ' + classeBadge(t2) + '">' + badgeTexto(t2) + '</span>' +
-                    '</div>'
-                );
-            }
+            
+            // Mostra apenas as últimas 8 senhas atendidas
+            const ticketsToShow = attendedTickets.slice(0, maxDisplayedTickets);
+            
+            ticketsToShow.forEach(ticket => {
+                displayElement.append(`
+                    <div class="ticket-card">
+                        <div class="ticket-number">${ticket}</div>
+                    </div>
+                `);
+            });
         }
     </script>
+
 </body>
 </html>
