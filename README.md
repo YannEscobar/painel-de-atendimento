@@ -17,9 +17,10 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 - [x] Sistema de Senhas
 - [x] Edição de senhas (prioridade & porte)
 - [x] FeedBack de atendimento
-- [x] ~~Monitoramento~~
-- [x] ~~Data e Hora~~
+- [x] Monitoramento
+- [x] Data e Hora
 - [ ] Re-desing da página
+- [ ] Integração com Django
 
 ## 📫 Contribuindo para O painel de atendimento
 
